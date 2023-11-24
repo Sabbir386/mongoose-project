@@ -1,5 +1,3 @@
-import { Schema, model, connect } from 'mongoose';
-
 export type Address = {
   street: string;
   city: string;
@@ -22,15 +20,8 @@ export type IUser = {
   };
   age: number;
   email: string;
-  isActive: 'active | inActive';
-  hobbies: [
-    'reading',
-    'writing',
-    'drawing',
-    'coding',
-    'gardening',
-    'playing music',
-  ];
+  isActive: 'active' | 'inActive';
+  hobbies: string[];
   address: Address;
   orders: Order[];
 };

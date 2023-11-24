@@ -22,15 +22,15 @@ const userSchema = new Schema<IUser>({
   },
   age: { type: Number, required: true },
   email: { type: String, required: true },
-  isActive: ['active', 'inActive'],
-  hobbies: [
-    'reading',
-    'writing',
-    'drawing',
-    'coding',
-    'gardening',
-    'playing music',
-  ],
+  isActive: {
+    type: String,
+    enum: ['active', 'inActive'],
+    Default: 'active',
+  },
+  hobbies: {
+    type: [String],
+    default: [],
+  },
   address: addressSchema,
   orders: [orderSchema],
 });
