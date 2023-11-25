@@ -61,6 +61,20 @@ const retrieveallOrdersFromDb = async (userId: string) => {
   return orders;
 };
 
+const calculateSpecificOrdersSumFromDb = async (userId: string) => {
+  const user = await User.findOne({
+    userId,
+  });
+  if (!user) {
+    throw new Error('User not found');
+  }
+  const totalPrice = user.orders.reduce(
+    (acc, order) => acc + order.price * order.quantity,
+    0,
+  );
+  return totalPrice;
+};
+
 const deleteUserFromDb = async (userId: string) => {
   const result = await User.updateOne({ userId }, { isDeleted: true });
   return result;
@@ -74,4 +88,5 @@ export const UserServices = {
   updateUserFromDb,
   addUserOrdersFromDb,
   retrieveallOrdersFromDb,
+  calculateSpecificOrdersSumFromDb,
 };

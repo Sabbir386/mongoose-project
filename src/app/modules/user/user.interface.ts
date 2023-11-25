@@ -20,7 +20,7 @@ export type IUser = {
   };
   age: number;
   email: string;
-  isActive: 'active' | 'inActive';
+  isActive: boolean;
   hobbies: string[];
   address: Address;
   orders: Order[];

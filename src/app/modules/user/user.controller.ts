@@ -63,7 +63,7 @@ const getSingleUserById = async (req: Request, res: Response) => {
 const updateUserById = async (req: Request, res: Response) => {
   //using mongoose _id
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId;
     const userData = req.body;
     const result = await UserServices.updateUserFromDb(userId, userData);
 
@@ -120,6 +120,25 @@ const retrieveOrdersById = async (req: Request, res: Response) => {
   }
 };
 
+const calculateOrdersSum = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.calculateSpecificOrdersSumFromDb(userId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
+      error: err,
+    });
+  }
+};
+
 const deleteDtudent = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -147,4 +166,5 @@ export const UserControllers = {
   updateUserById,
   addUserOrders,
   retrieveOrdersById,
+  calculateOrdersSum,
 };
