@@ -14,6 +14,9 @@ const getSingleUsersFromDb = async (userId: string) => {
   const result = await User.findOne({
     userId,
   });
+  if (!result) {
+    throw new Error('User not found');
+  }
   return result;
 };
 
@@ -25,6 +28,9 @@ const updateUserFromDb = async (
   const result = await User.findByIdAndUpdate(userId, userData, {
     new: true,
   });
+  if (!result) {
+    throw new Error('User not found');
+  }
   return result;
 };
 
@@ -36,7 +42,23 @@ const addUserOrdersFromDb = async (
   const result = await User.findByIdAndUpdate(userId, userData, {
     new: true,
   });
+  if (!result) {
+    throw new Error('User not found');
+  }
   return result;
+};
+
+const retrieveallOrdersFromDb = async (userId: string) => {
+  const orders = await User.findOne(
+    {
+      userId,
+    },
+    { orders: 1 },
+  );
+  if (!orders) {
+    throw new Error('User not found');
+  }
+  return orders;
 };
 
 const deleteUserFromDb = async (userId: string) => {
@@ -51,4 +73,5 @@ export const UserServices = {
   deleteUserFromDb,
   updateUserFromDb,
   addUserOrdersFromDb,
+  retrieveallOrdersFromDb,
 };

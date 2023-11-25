@@ -54,7 +54,7 @@ const getSingleUserById = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'User Not Found',
       error: err,
     });
   }
@@ -75,7 +75,7 @@ const updateUserById = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'User Not Found',
       error: err,
     });
   }
@@ -96,7 +96,25 @@ const addUserOrders = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong',
+      message: 'User Not Found',
+      error: err,
+    });
+  }
+};
+const retrieveOrdersById = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.retrieveallOrdersFromDb(userId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'User not found',
       error: err,
     });
   }
@@ -128,4 +146,5 @@ export const UserControllers = {
   deleteDtudent,
   updateUserById,
   addUserOrders,
+  retrieveOrdersById,
 };
