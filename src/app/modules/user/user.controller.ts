@@ -61,6 +61,7 @@ const getSingleUserById = async (req: Request, res: Response) => {
 };
 
 const updateUserById = async (req: Request, res: Response) => {
+  //using mongoose _id
   try {
     const { userId } = req.params;
     const userData = req.body;
@@ -69,6 +70,27 @@ const updateUserById = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'User updated successfully!',
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err,
+    });
+  }
+};
+
+const addUserOrders = async (req: Request, res: Response) => {
+  //using mongoose _id
+  try {
+    const { userId } = req.params;
+    const userData = req.body;
+    const result = await UserServices.addUserOrdersFromDb(userId, userData);
+
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
       data: result,
     });
   } catch (err) {
@@ -105,4 +127,5 @@ export const UserControllers = {
   getSingleUserById,
   deleteDtudent,
   updateUserById,
+  addUserOrders,
 };

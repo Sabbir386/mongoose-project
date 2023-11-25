@@ -18,6 +18,18 @@ const getSingleUsersFromDb = async (userId: string) => {
 };
 
 const updateUserFromDb = async (
+  //using mongoose _id
+  userId: string,
+  userData: IUser,
+): Promise<IUser | null> => {
+  const result = await User.findByIdAndUpdate(userId, userData, {
+    new: true,
+  });
+  return result;
+};
+
+const addUserOrdersFromDb = async (
+  //using mongoose _id
   userId: string,
   userData: IUser,
 ): Promise<IUser | null> => {
@@ -38,4 +50,5 @@ export const UserServices = {
   getSingleUsersFromDb,
   deleteUserFromDb,
   updateUserFromDb,
+  addUserOrdersFromDb,
 };
