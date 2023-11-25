@@ -60,6 +60,26 @@ const getSingleUserById = async (req: Request, res: Response) => {
   }
 };
 
+const updateUserById = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserServices.updateUserFromDb(userId);
+    // const result = await UserServices.updateUserFromDb(userId);
+
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully!',
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: 'Something went wrong',
+      error: err,
+    });
+  }
+};
+
 const deleteDtudent = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -84,4 +104,5 @@ export const UserControllers = {
   getAlleUsers,
   getSingleUserById,
   deleteDtudent,
+  updateUserById,
 };

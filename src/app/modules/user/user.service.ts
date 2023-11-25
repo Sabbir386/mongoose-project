@@ -17,6 +17,14 @@ const getSingleUsersFromDb = async (userId: string) => {
   return result;
 };
 
+const updateUserFromDb = async (userId: string) => {
+  const update = { age: 45 };
+  const result = await User.findOneAndUpdate({ userId }, update, {
+    new: true,
+  });
+  return result;
+};
+
 const deleteUserFromDb = async (userId: string) => {
   const result = await User.updateOne({ userId }, { isDeleted: true });
   return result;
@@ -27,4 +35,5 @@ export const UserServices = {
   getAllUsersFromDb,
   getSingleUsersFromDb,
   deleteUserFromDb,
+  updateUserFromDb,
 };
