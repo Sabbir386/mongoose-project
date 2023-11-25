@@ -17,9 +17,11 @@ const getSingleUsersFromDb = async (userId: string) => {
   return result;
 };
 
-const updateUserFromDb = async (userId: string) => {
-  const update = { age: 45 };
-  const result = await User.findOneAndUpdate({ userId }, update, {
+const updateUserFromDb = async (
+  userId: string,
+  userData: IUser,
+): Promise<IUser | null> => {
+  const result = await User.findByIdAndUpdate(userId, userData, {
     new: true,
   });
   return result;
