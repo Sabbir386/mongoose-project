@@ -35,6 +35,10 @@ const userSchema = new Schema<IUser>({
   },
   address: addressSchema,
   orders: [orderSchema],
+  isDeleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 //pre hook middleware
@@ -51,6 +55,10 @@ userSchema.pre('save', async function (next) {
 
 userSchema.post('save', function (doc, next) {
   doc.password = '';
+  next();
+});
+userSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
   next();
 });
 
