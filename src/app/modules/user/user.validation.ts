@@ -14,18 +14,20 @@ const OrderValidationSchema = z.object({
 
 const UserValidationSchema = z.object({
   userId: z.number(),
-  username: z.string(),
-  password: z.string(),
+  username: z.string({
+    required_error: 'User name is required',
+  }),
+  password: z.string().min(6),
   fullName: z.object({
     firstName: z.string(),
     lastName: z.string(),
   }),
-  age: z.number(),
-  email: z.string(),
-  isActive: z.boolean(),
-  hobbies: z.array(z.string()),
+  age: z.number({ required_error: 'Age is required' }),
+  email: z.string().email(),
+  isActive: z.boolean().default(true),
+  hobbies: z.array(z.string()).default([]),
   address: AddressValidationSchema,
-  orders: z.array(OrderValidationSchema),
+  orders: z.array(OrderValidationSchema).default([]),
   isDeleted: z.boolean().optional(),
 });
 

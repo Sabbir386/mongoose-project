@@ -43,7 +43,7 @@ const getAlleUsers = async (req: Request, res: Response) => {
 
 const getSingleUserById = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = parseInt(req.params.userId);
     const result = await UserServices.getSingleUsersFromDb(userId);
 
     res.status(200).json({
@@ -55,15 +55,17 @@ const getSingleUserById = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'User Not Found',
-      error: err,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
     });
   }
 };
 
 const updateUserById = async (req: Request, res: Response) => {
-  //using mongoose _id
   try {
-    const userId = req.params.userId;
+    const userId = parseInt(req.params.userId);
     const userData = req.body;
     const result = await UserServices.updateUserFromDb(userId, userData);
 
@@ -76,7 +78,10 @@ const updateUserById = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'User Not Found',
-      error: err,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
     });
   }
 };
@@ -84,7 +89,7 @@ const updateUserById = async (req: Request, res: Response) => {
 const addUserOrders = async (req: Request, res: Response) => {
   //using mongoose _id
   try {
-    const { userId } = req.params;
+    const userId = parseInt(req.params.userId);
     const userData = req.body;
     const result = await UserServices.addUserOrdersFromDb(userId, userData);
 
@@ -97,13 +102,16 @@ const addUserOrders = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'User Not Found',
-      error: err,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
     });
   }
 };
 const retrieveOrdersById = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = parseInt(req.params.userId);
     const result = await UserServices.retrieveallOrdersFromDb(userId);
 
     res.status(200).json({
@@ -115,14 +123,17 @@ const retrieveOrdersById = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'User not found',
-      error: err,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
     });
   }
 };
 
 const calculateOrdersSum = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = parseInt(req.params.userId);
     const result = await UserServices.calculateSpecificOrdersSumFromDb(userId);
 
     res.status(200).json({
@@ -134,26 +145,32 @@ const calculateOrdersSum = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: 'User not found',
-      error: err,
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
     });
   }
 };
 
 const deleteDtudent = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.params;
+    const userId = parseInt(req.params.userId);
     const result = await UserServices.deleteUserFromDb(userId);
 
     res.status(200).json({
       success: true,
       message: 'User deleted successfully!',
-      data: result,
+      data: null,
     });
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: 'Something went wrong',
-      error: err,
+      message: 'User Not Found',
+      error: {
+        code: 404,
+        description: 'User not found!',
+      },
     });
   }
 };

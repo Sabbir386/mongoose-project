@@ -1,5 +1,11 @@
 import { model, Schema } from 'mongoose';
-import { Address, IUser, Order } from './user/user.interface';
+import {
+  Address,
+  IUser,
+  Order,
+  UserMethod,
+  UserModel,
+} from './user/user.interface';
 import bcrypt from 'bcrypt';
 import config from '../config';
 const addressSchema = new Schema<Address>({
@@ -14,7 +20,7 @@ const orderSchema = new Schema<Order>({
   quantity: { type: Number, required: true },
 });
 
-const userSchema = new Schema<IUser>({
+const userSchema = new Schema<IUser, UserModel, UserMethod>({
   userId: { type: Number, required: true, unique: true },
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -32,8 +38,8 @@ const userSchema = new Schema<IUser>({
     type: [String],
     default: [],
   },
-  address: addressSchema,
-  orders: [orderSchema],
+  address: { type: addressSchema, required: true },
+  orders: { type: [orderSchema] },
   isDeleted: {
     type: Boolean,
     default: false,
@@ -56,13 +62,16 @@ userSchema.post('save', function (doc, next) {
   doc.password = '';
   next();
 });
-userSchema.pre('find', function (next) {
-  this.find({ isDeleted: { $ne: true } });
-  next();
-});
 userSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });
-
-export const User = model<IUser>('User', userSchema);
+userSchema.post('findOne', function (doc, next) {
+  doc.password = '';
+  next();
+});
+userSchema.methods.isUserExists = async function (userId: number) {
+  const exisUser = User.findOne({ userId });
+  return exisUser;
+};
+export const User = model<IUser, UserModel>('User', userSchema);

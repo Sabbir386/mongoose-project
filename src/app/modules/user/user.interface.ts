@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type Address = {
   street: string;
   city: string;
@@ -26,3 +28,7 @@ export type IUser = {
   orders: Order[];
   isDeleted?: boolean;
 };
+export type UserMethod = {
+  isUserExists(id: number): Promise<IUser | null>;
+};
+export type UserModel = Model<IUser, Record<string, never>, UserMethod>;
