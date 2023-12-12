@@ -29,7 +29,7 @@ const getAlleUsers = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: 'Users are retrived successfully',
+      message: 'Users fetched successfully!',
       data: result,
     });
   } catch (err) {
@@ -87,7 +87,6 @@ const updateUserById = async (req: Request, res: Response) => {
 };
 
 const addUserOrders = async (req: Request, res: Response) => {
-  //using mongoose _id
   try {
     const userId = parseInt(req.params.userId);
     const userData = req.body;
@@ -96,7 +95,7 @@ const addUserOrders = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: 'Order created successfully!',
-      data: result,
+      data: null,
     });
   } catch (err) {
     res.status(500).json({

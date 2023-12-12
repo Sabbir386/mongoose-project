@@ -76,6 +76,7 @@ const retrieveallOrdersFromDb = async (userId: number) => {
 
 const calculateSpecificOrdersSumFromDb = async (userId: number) => {
   const user = new User();
+
   if (await user.isUserExists(userId)) {
     const result = await User.aggregate([
       { $match: { userId: userId } },
@@ -95,7 +96,9 @@ const calculateSpecificOrdersSumFromDb = async (userId: number) => {
         },
       },
     ]);
-    return result;
+
+    const totalPrice = result.length > 0 ? result[0].totalPrice : 0;
+    return { totalPrice };
   } else {
     throw new Error('User not found');
   }
