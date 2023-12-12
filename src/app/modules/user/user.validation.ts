@@ -17,7 +17,7 @@ const UserValidationSchema = z.object({
   username: z.string({
     required_error: 'User name is required',
   }),
-  password: z.string().min(6),
+  password: z.string(),
   fullName: z.object({
     firstName: z.string(),
     lastName: z.string(),

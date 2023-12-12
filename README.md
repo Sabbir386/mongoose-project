@@ -17,3 +17,32 @@
 5. **TypeScript Compilation:**
    - compile the TypeScript code to JavaScript using the following command:
      tsc
+
+### Create user
+
+method : post
+
+https://mongoose-assignment-project.vercel.app/api/users
+
+{
+"userId": 6,
+"username": "alice_dsdss",
+"password": "asdgdfgf",
+"fullName": {
+"firstName": "Alffice",
+"lastName": "Davis"
+},
+"age": 69,
+"email": "alice.davis@example.com",
+"isActive": true,
+"hobbies": [
+"painting",
+"swimming"
+],
+"address": {
+"street": "789 Pine St",
+"city": "Largetown",
+"country": "USA"
+},
+"orders": []
+}

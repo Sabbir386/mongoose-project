@@ -51,6 +51,9 @@ const userSchema = new Schema<IUser, UserModel, UserMethod>({
 userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this;
+  if (!user.isModified('password')) {
+    return next();
+  }
   user.password = await bcrypt.hash(
     user.password,
     Number(config.bcrypt_salt_rounds),
@@ -69,6 +72,26 @@ userSchema.pre('findOne', function (next) {
 userSchema.post('findOne', function (doc, next) {
   doc.password = '';
   next();
+});
+
+userSchema.pre('findOneAndUpdate', async function (next) {
+  const update: any | null = this.getUpdate();
+  const password = update.password;
+
+  if (password) {
+    try {
+      const hashPassword = await bcrypt.hash(
+        password,
+        Number(config.bcrypt_salt_rounds),
+      );
+      update.password = hashPassword;
+      next();
+    } catch (error: any) {
+      return next(error);
+    }
+  } else {
+    next();
+  }
 });
 userSchema.methods.isUserExists = async function (userId: number) {
   const exisUser = User.findOne({ userId });

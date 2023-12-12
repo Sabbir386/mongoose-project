@@ -3,7 +3,7 @@ import { UserServices } from './user.service';
 import UserValidationSchema from './user.validation';
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
+    const userData = req.body;
     //validation using by zod
 
     const zodParseData = UserValidationSchema.parse(userData);

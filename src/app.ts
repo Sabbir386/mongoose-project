@@ -11,10 +11,7 @@ app.use(cors());
 app.use('/api/users', UserRoutes);
 
 const getAController = (req: Request, res: Response) => {
-  res.send(200).json({
-    success: true,
-    message: 'Welcome to the api of mongoose assignment project',
-  });
+  res.send('App is running');
 };
 app.get('/', getAController);
 
